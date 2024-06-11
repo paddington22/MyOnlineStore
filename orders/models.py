@@ -15,28 +15,32 @@ class Product(models.Model):
         return self.name
 
 
+#class ProductInStock(models.Model):
+#    product_id = models.ForeignKey()
+
+
 class Category(models.Model):
-   name = models.CharField(max_length=255)
-   description = models.TextField(null=True, blank=True)
+   name = models.CharField(max_length=255, verbose_name='Название')
+   description = models.TextField(null=True, blank=True, verbose_name='Описание')
 
    def __str__(self):
      return self.name
 
 
 class Client(models.Model):
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    patronymic_name = models.CharField(max_length=30, null=True, blank=True)
-    phone_number = models.CharField(max_length=20)
-    email = models.EmailField(null=True, blank=True)
+    first_name = models.CharField(max_length=30, verbose_name='Имя')
+    last_name = models.CharField(max_length=30, verbose_name='Фамилия')
+    patronymic_name = models.CharField(max_length=30, null=True, blank=True, verbose_name='Отчество')
+    phone_number = models.CharField(max_length=20, verbose_name='Номер телефона')
+    email = models.EmailField(null=True, blank=True, verbose_name='Электронная почта')
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
 
 
 class OrderStatus(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField(null=True, blank=True)
+    name = models.CharField(max_length=100, verbose_name='Название')
+    description = models.TextField(null=True, blank=True, verbose_name='Описание')
 
     @classmethod
     def get_default_pk(cls):
@@ -51,10 +55,13 @@ class OrderStatus(models.Model):
 
 
 class Order(models.Model):
-    client_id = models.ForeignKey('Client', on_delete=models.CASCADE)
-    order_status_id = models.ForeignKey(to='OrderStatus', on_delete=models.PROTECT, default=OrderStatus.get_default_pk)
-    summary = models.DecimalField(max_digits=9, decimal_places=2)
-    order_datetime = models.DateTimeField(default=datetime.now())
+    client_id = models.ForeignKey('Client', on_delete=models.CASCADE, verbose_name='Клиент')
+    order_status_id = models.ForeignKey(to='OrderStatus',
+                                        on_delete=models.PROTECT,
+                                        default=OrderStatus.get_default_pk,
+                                        verbose_name='Cтатус заказа')
+    summary = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Сумма')
+    order_datetime = models.DateTimeField(auto_now=True, verbose_name='Дата и время заказа')
 
     def __str__(self):
         return f'Заказ № {self.id} (заказчик: {self.client_id})'

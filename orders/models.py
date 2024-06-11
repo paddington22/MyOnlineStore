@@ -67,13 +67,41 @@ class OrderStatus(models.Model):
 
 
 class Order(models.Model):
-    client_id = models.ForeignKey('Client', on_delete=models.CASCADE, verbose_name='Клиент')
-    order_status_id = models.ForeignKey(to='OrderStatus',
+    client = models.ForeignKey('Client', on_delete=models.CASCADE, verbose_name='Клиент')
+    order_status = models.ForeignKey(to='OrderStatus',
                                         on_delete=models.PROTECT,
                                         default=OrderStatus.get_default_pk,
                                         verbose_name='Cтатус заказа')
     summary = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Сумма')
     order_datetime = models.DateTimeField(auto_now=True, verbose_name='Дата и время заказа')
+    #products = models.ManyToManyField('Product', through='ProductInOrder')
 
     def __str__(self):
         return f'Заказ № {self.id} (заказчик: {self.client_id})'
+
+
+class ShoppingBasket(models.Model):
+    client = models.ForeignKey('Client', on_delete=models.CASCADE, verbose_name='Клиент')
+    summary = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Сумма')
+    #products = models.ManyToManyField('Product', through='ProductsInBasket')
+
+
+#Class ProductInBasket(models.Model):
+#    product = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name='Товар')
+#    basket = models.ForeignKey('ShoppingBasket', on_delete=models.CASCADE, verbose_name='Корзина')
+#    unit_price = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name='Цена')
+#    quantity = models.ForeignKey('ProductInStock', on_delete=models.CASCADE, verbose_name='Количество')
+
+
+
+
+
+#class ProductInOrder(models.Model):
+#    product = models.ForeignKey('Product', on_delete=models.CASCADE)
+#    order = models.ForeignKey('Order', on_delete=models.CASCADE)
+#    unit_price =
+#    quantity =
+
+
+#class PurchaseHistory(models.Model):
+#    client = models.ForeignKey('Client', on_delete=models.CASCADE, verbose_name='Клиент')

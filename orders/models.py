@@ -1,22 +1,34 @@
 from datetime import datetime
 
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 # Create your models here.
 class Product(models.Model):
-    name = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='products_image/')
-    description = models.TextField(null=True, blank=True)
-    unit_price = models.DecimalField(max_digits=7, decimal_places=2)
-    category_id = models.ForeignKey('Category', on_delete=models.PROTECT)
+    name = models.CharField(max_length=100, verbose_name='Товар')
+    image = models.ImageField(upload_to='products_image/', null=True, blank=True, verbose_name='Изображение')
+    description = models.TextField(null=True, blank=True, verbose_name='Описание')
+    unit_price = models.DecimalField(max_digits=7, decimal_places=2, verbose_name='Цена')
+    category_id = models.ForeignKey('Category', on_delete=models.PROTECT, verbose_name='Категория')
 
     def __str__(self):
         return self.name
 
 
-#class ProductInStock(models.Model):
-#    product_id = models.ForeignKey()
+class ProductInStock(models.Model):
+    product = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name='Товар')
+    quantity = models.IntegerField(verbose_name='Количество')
+
+    def __str__(self):
+        return f'{Product.objects.get(id=self.product_id)}'
+
+
+@receiver(post_save, sender=Product)
+def update_stock(sender, instance, **kwargs):
+    ProductInStock.objects.create(product=instance, quantity=0)
+
 
 
 class Category(models.Model):

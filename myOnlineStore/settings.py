@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'orders'
 ]
 
 MIDDLEWARE = [
@@ -78,7 +79,7 @@ WSGI_APPLICATION = 'myOnlineStore.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgres_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'myOnlineStore',
         'USER': 'postgres',
         'PASSWORD': 'admin',

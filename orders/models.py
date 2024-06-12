@@ -76,7 +76,7 @@ class Order(models.Model):
                                         verbose_name='Cтатус заказа')
     summary = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Сумма')
     order_datetime = models.DateTimeField(auto_now=True, verbose_name='Дата и время заказа')
-    #products = models.ManyToManyField('Product', through='ProductInOrder')
+    products = models.ManyToManyField('Product', through='ProductInOrder')
 
     def __str__(self):
         return f'Заказ № {self.id} (заказчик: {self.client_id})'
@@ -86,9 +86,6 @@ class ProductInBasket(models.Model):
     product = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name='Товар')
     basket = models.ForeignKey('ShoppingBasket', on_delete=models.CASCADE, verbose_name='Корзина')
     quantity = models.IntegerField(verbose_name='Количество')
-
-    def __str__(self):
-        return f'{self.basket.client.first_name} {self.basket.client.last_name}'
 
 
 class ShoppingBasket(models.Model):
@@ -104,19 +101,11 @@ def update_basket(sender, instance, **kwargs):
     ShoppingBasket.objects.create(client=instance)
 
 
-
-
-
-
-
-
-
-
-#class ProductInOrder(models.Model):
-#    product = models.ForeignKey('Product', on_delete=models.CASCADE)
-#    order = models.ForeignKey('Order', on_delete=models.CASCADE)
-#    unit_price =
-#    quantity =
+class ProductInOrder(models.Model):
+    product = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name='Товар')
+    order = models.ForeignKey('Order', on_delete=models.CASCADE, verbose_name='№ заказа')
+    unit_price = models.DecimalField(max_digits=7, decimal_places=2, verbose_name='Цена')
+    quantity = models.IntegerField(verbose_name='Количество')
 
 
 #class PurchaseHistory(models.Model):

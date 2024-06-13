@@ -8,7 +8,7 @@ from django.dispatch import receiver
 # Create your models here.
 class Product(models.Model):
     name = models.CharField(max_length=100, verbose_name='Товар')
-    image = models.ImageField(upload_to='products_image/', null=True, blank=True, verbose_name='Изображение')
+    image = models.ImageField(upload_to='static/products/', null=True, blank=True, verbose_name='Изображение')
     description = models.TextField(null=True, blank=True, verbose_name='Описание')
     unit_price = models.DecimalField(max_digits=7, decimal_places=2, verbose_name='Цена')
     category_id = models.ForeignKey('Category', on_delete=models.PROTECT, verbose_name='Категория')

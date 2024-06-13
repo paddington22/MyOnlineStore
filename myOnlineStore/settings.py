@@ -60,7 +60,7 @@ ROOT_URLCONF = 'myOnlineStore.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR.joinpath('templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -134,3 +134,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #Authentication settings
 AUTH_USER_MODEL = 'users.User'
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
+
+STATICFILES_DIRS = [
+    "static/",
+]

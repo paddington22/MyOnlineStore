@@ -2,12 +2,23 @@
 
 {% block content %}
 <h1>Product List</h1>
-<ul>
 {% for product in products %}
-<li>
-    <div class="button" role="button" onclick="location.href='{% url "product-detail" product.id %}'"<div/>
-     {{ product.name }}
-</li>
+{% if product.image %}
+    <div>
+    <div class="button" role="button" onclick="location.href='{% url "product-detail" product.id %}'">
+        <p><h5>{{ product.name }}</h5></p>
+    <img src="/{{ product.image }}" alt="{{ product.name }}"
+        width="300"
+        height="300"/>
+    </div>
+{% else %}
+    <div>
+    <div class="button" role="button" onclick="location.href='{% url "product-detail" product.id %}'">
+        <p><h5>{{ product.name }}</h5></p>
+    <img src="/static/placeholder.png" alt="No image"
+        width="300"
+        height="300"/>
+    </div>
+{% endif %}
 {% endfor %}
-</ul>
 {% endblock %}

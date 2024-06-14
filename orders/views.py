@@ -13,7 +13,7 @@ class ProductListView(LoginRequiredMixin, ListView):
         return Product.objects.all().order_by('name')
 
 
-class ProductDetailListView(ListView):
+class ProductDetailListView(LoginRequiredMixin, ListView):
     template_name = 'products/product_detail.html'
 
     def get_queryset(self):
@@ -25,8 +25,5 @@ class ProductDetailListView(ListView):
         context['product'] = product
         return context
 
-#def product_detail(request, pk):
- #   product = Product.objects.get(pk=pk)
-  #  context = {'product': product, 'image': f'/{product.image}'}
-   # return render(request, 'products/product_detail.html', context)
+
 

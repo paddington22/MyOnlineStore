@@ -25,5 +25,8 @@ class ProductDetailListView(LoginRequiredMixin, ListView):
         context['product'] = product
         return context
 
+class ProfileListView(LoginRequiredMixin, ListView):
+    pass
+
 
 

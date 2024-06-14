@@ -2,7 +2,7 @@
 
 {% block content %}
 <h1>Product List</h1>
-{% for product in products %}
+{% for product in object_list %}
 {% if product.image %}
     <div>
     <div class="button" role="button" onclick="location.href='{% url "product-detail" product.id %}'">

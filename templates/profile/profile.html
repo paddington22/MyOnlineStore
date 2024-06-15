@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-HI!!!
+<style>
+ input {
+ margin-top: 25px
+ }
+</style>
+<input value="На главную" type="button" onclick="location.href='{% url "product-list" %}'"/>
+<input value="Добавить персональную информацию" type="button" onclick="#"/>
+<input value="Мои заказы" type="button" onclick="#"/>
+<input value="Выйти" type="button" onclick="location.href='http://127.0.0.1:8000/accounts/logout/'"/>
+
 {% endblock %}
 

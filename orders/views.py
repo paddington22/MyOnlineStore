@@ -26,7 +26,9 @@ class ProductDetailListView(LoginRequiredMixin, ListView):
         return context
 
 class ProfileListView(LoginRequiredMixin, ListView):
-    pass
+    template_name = 'profile/profile.html'
+    def get_queryset(self):
+        pass
 
 
 

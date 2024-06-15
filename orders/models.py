@@ -1,5 +1,5 @@
 from datetime import datetime
-
+from users.models import User
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -26,7 +26,6 @@ class ProductInStock(models.Model):
     def __str__(self):
         return f'{Product.objects.get(id=self.product_id)}'
 
-
 @receiver(post_save, sender=Product)
 def update_stock(sender, instance, **kwargs):
     ProductInStock.objects.create(product=instance, quantity=0)
@@ -42,14 +41,19 @@ class Category(models.Model):
 
 
 class Client(models.Model):
-    first_name = models.CharField(max_length=30, verbose_name='Имя')
-    last_name = models.CharField(max_length=30, verbose_name='Фамилия')
+    first_name = models.CharField(max_length=30, null=True, blank=True, verbose_name='Имя')
+    last_name = models.CharField(max_length=30, null=True, blank=True, verbose_name='Фамилия')
     patronymic_name = models.CharField(max_length=30, null=True, blank=True, verbose_name='Отчество')
-    phone_number = models.CharField(max_length=20, verbose_name='Номер телефона')
+    phone_number = models.CharField(max_length=20, null=True, blank=True, verbose_name='Номер телефона')
     email = models.EmailField(null=True, blank=True, verbose_name='Электронная почта')
+    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
+
+@receiver(post_save, sender=User)
+def update_client(sender, instance, **kwargs):
+    Client.objects.create(user=instance)
 
 
 class OrderStatus(models.Model):
@@ -90,15 +94,15 @@ class ProductInBasket(models.Model):
 
 class ShoppingBasket(models.Model):
     client = models.ForeignKey('Client', on_delete=models.CASCADE, verbose_name='Клиент')
-    products = models.ManyToManyField('Product', through='ProductInBasket', null=True, blank=True)
+    products = models.ManyToManyField('Product', through='ProductInBasket')
 
     def __str__(self):
         return f'{self.client.first_name} {self.client.last_name}'
 
-
 @receiver(post_save, sender=Client)
 def update_basket(sender, instance, **kwargs):
     ShoppingBasket.objects.create(client=instance)
+
 
 
 class ProductInOrder(models.Model):

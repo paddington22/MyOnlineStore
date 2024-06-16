@@ -7,9 +7,12 @@
  }
 </style>
 <input value="На главную" type="button" onclick="location.href='{% url "product-list" %}'"/>
-<input value="Добавить персональную информацию" type="button" onclick="#"/>
+<input value="Добавить персональную информацию"
+       type="button"
+       onclick="location.href='{% url "profile-update" object_list.pk %}'"/>
 <input value="Мои заказы" type="button" onclick="#"/>
 <input value="Выйти" type="button" onclick="location.href='http://127.0.0.1:8000/accounts/logout/'"/>
+
 
 {% endblock %}
 

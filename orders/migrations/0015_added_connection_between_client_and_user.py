@@ -36,11 +36,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='product',
             name='image',
-            field=models.ImageField(blank=True, null=True, upload_to='static/products/', verbose_name='Изображение'),
+            field=models.ImageField(blank=True, null=True, upload_to='static/orders/', verbose_name='Изображение'),
         ),
         migrations.AlterField(
             model_name='shoppingbasket',
-            name='products',
+            name='orders',
             field=models.ManyToManyField(through='orders.ProductInBasket', to='orders.product'),
         ),
     ]

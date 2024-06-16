@@ -5,7 +5,7 @@
 {% for product in object_list %}
 {% if product.image %}
     <div>
-    <div class="button" role="button" onclick="location.href='{% url "product-detail" product.id %}'">
+    <div class="button" role="button" onclick="location.href='{% url "product-detail-list" product.id %}'">
         <p><h5>{{ product.name }}</h5></p>
     <img src="/{{ product.image }}" alt="{{ product.name }}"
         width="300"
@@ -13,7 +13,7 @@
     </div>
 {% else %}
     <div>
-    <div class="button" role="button" onclick="location.href='{% url "product-detail" product.id %}'">
+    <div class="button" role="button" onclick="location.href='{% url "product-detail-list" product.id %}'">
         <p><h5>{{ product.name }}</h5></p>
     <img src="/static/placeholder.png" alt="No image"
         width="300"

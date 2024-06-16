@@ -6,6 +6,11 @@ from django.dispatch import receiver
 
 
 # Create your models here.
+class ProfileManager(models.Manager):
+
+    def for_user(self, user):
+        return self.get_queryset().filter(user=user)
+
 class Product(models.Model):
     name = models.CharField(max_length=100, verbose_name='Товар')
     image = models.ImageField(upload_to='static/products/', null=True, blank=True, verbose_name='Изображение')
@@ -47,6 +52,8 @@ class Client(models.Model):
     phone_number = models.CharField(max_length=20, null=True, blank=True, verbose_name='Номер телефона')
     email = models.EmailField(null=True, blank=True, verbose_name='Электронная почта')
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+
+    objects = ProfileManager()
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'

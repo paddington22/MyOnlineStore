@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='shoppingbasket',
-            name='products',
+            name='orders',
             field=models.ManyToManyField(through='orders.ProductInBasket', to='orders.product'),
         ),
     ]

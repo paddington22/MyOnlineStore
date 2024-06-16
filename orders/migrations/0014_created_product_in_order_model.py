@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterField(
             model_name='shoppingbasket',
-            name='products',
+            name='orders',
             field=models.ManyToManyField(blank=True, null=True, through='orders.ProductInBasket', to='orders.product'),
         ),
         migrations.CreateModel(
@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='order',
-            name='products',
+            name='orders',
             field=models.ManyToManyField(through='orders.ProductInOrder', to='orders.product'),
         ),
     ]

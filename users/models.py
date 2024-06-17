@@ -1,14 +1,14 @@
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
 
 from products.models import Product
 
 
 # Create your models here.
-class ProfileManager(models.Manager):
+class ProfileManager(UserManager):
 
     def for_user(self, user):
-        return self.get_queryset().filter(user=user)
+        return self.get_queryset().filter(username=user)[0]
 
 
 class User(AbstractUser):
@@ -17,7 +17,7 @@ class User(AbstractUser):
     objects = ProfileManager()
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name}'
+        return self.username
 
 
 class ProductInBasket(models.Model):

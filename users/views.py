@@ -8,9 +8,10 @@ from .models import User
 
 # Create your views here.
 class ProfileListView(LoginRequiredMixin, ListView):
+    model = User
     template_name = 'profile/profile.html'
     def get_queryset(self):
-        return User.objects.for_user(self.request.user)[0]
+        return User.objects.for_user(self.request.user)
 
     #def get_context_data(self, **kwargs):
     #    context = super().get_context_data(**kwargs)
@@ -23,7 +24,7 @@ class ProfileListView(LoginRequiredMixin, ListView):
 class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = User
     template_name = 'profile/profile_form.html'
-    fields = ['first_name', 'last_name', 'patronymic_name', 'phone_number', 'email']
+    fields = ['first_name', 'last_name', 'email']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

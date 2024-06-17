@@ -14,7 +14,7 @@ class ProductListView(LoginRequiredMixin, ListView):
 
 
 class ProductDetailListView(LoginRequiredMixin, ListView):
-    template_name = 'orders/product_detail_list.html'
+    template_name = 'products/product_detail_list.html'
 
     def get_queryset(self):
         return Product.objects.all().filter(pk=self.kwargs['pk'])

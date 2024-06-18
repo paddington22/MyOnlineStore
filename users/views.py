@@ -38,3 +38,7 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
         return form
+
+
+class ProductInBasketUpdateView(LoginRequiredMixin, UpdateView):
+    template_name = 'profile/basket.html'

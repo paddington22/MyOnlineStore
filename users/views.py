@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
-from django.views.generic import ListView, UpdateView
-from .models import User
+from django.views.generic import ListView, UpdateView, TemplateView, FormView, CreateView
 
+from products.forms import ProductInBasketCreateForm
+from products.models import Product
+from .models import User, ProductInBasket
 
 
 # Create your views here.
@@ -40,5 +42,33 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
         return form
 
 
-class ProductInBasketUpdateView(LoginRequiredMixin, UpdateView):
+class NewOrderCreateView(LoginRequiredMixin, FormView):
     template_name = 'profile/basket.html'
+
+    def get_form(self, form_class=ProductInBasketCreateForm):
+        form = super().get_form(form_class)
+        return form
+
+    def get_context_data(self, **kwargs):
+        summary = 0
+        context = super().get_context_data(**kwargs)
+        products_in_basket = ProductInBasket.objects.filter(user=self.request.user)
+        products_list = Product.objects.all()
+        result = []
+        for product in products_list:
+            for product_in_basket in products_in_basket:
+                if product.id == product_in_basket.product_id:
+                    temp_summary = product.unit_price * product_in_basket.quantity
+                    result.append([product_in_basket, product.unit_price, temp_summary, product.image])
+                    summary += temp_summary
+
+        context['products_in_basket_info'] = result
+        context['summary'] = summary
+        return context
+
+
+class ProductInBasketUpdateView(LoginRequiredMixin, UpdateView):
+    model = ProductInBasket
+    template_name = 'basket_update.html'
+    form_class = ProductInBasketCreateForm
+    success_url = '.'

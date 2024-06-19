@@ -25,3 +25,5 @@ class ProductInBasket(models.Model):
     user = models.ForeignKey('User', on_delete=models.CASCADE, verbose_name='Пользователь', null=True)
     quantity = models.IntegerField(verbose_name='Количество')
 
+    def __str__(self):
+        return self.product.name

@@ -6,3 +6,4 @@ class ProductInBasketCreateForm(forms.ModelForm):
         model = ProductInBasket
         fields = ['quantity']
 
+

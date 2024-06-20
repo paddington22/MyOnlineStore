@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h3>Корзина</h3>
-{% for product, unit_price, temp_summary, image in products_in_basket_info %}
-<form method="post" action="{% url 'basket-update-item' product.id %}">
+<h3>Подтверждение заказа</h3>
+<form method="post">
+{% for product, unit_price, image in products_in_basket_info %}
     <h4>{{ product }}</h4>
     {% if image %}
     <img src="/{{ image }}" alt="{{ product }}"
@@ -15,19 +15,14 @@
             height="100"/>
     {% endif %}
     <p><b>{{ product.quantity }} шт. {{ unit_price }} руб./шт.</b></p>
-    <p><b>{{ temp_summary }} руб.</b></p>
-    {% csrf_token %}
-    <table>
-        {{ form.as_table }}
-    </table>
-<input type="submit" value="Изменить количество">
-<input type="button" value="Удалить" onclick="location.href='{% url "basket-delete-item" product.id %}'">
 </form>
 {% endfor %}
+    {% csrf_token %}
+        {{ form.as_table }}
     <p><b>Общая сумма: {{ summary }} руб.</b></p>
-<div><input value="Оформить заказ"
+<div><input value="Подтвердить заказ"
        type="button" onclick="location.href='{% url "order-create" %}'"/>
 <input value="Отменить"
        class="button"
-       onclick="location.href='http://127.0.0.1:8000/accounts/profile/'"/></div>
+       onclick="location.href='{% url "basket" %}'"/></div>
 {% endblock %}

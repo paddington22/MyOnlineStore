@@ -85,3 +85,4 @@ class ProductInBasketItemDeleteView(LoginRequiredMixin, DeleteView):
         context['product'] = product
         context['quantity'] = quantity
         return context
+

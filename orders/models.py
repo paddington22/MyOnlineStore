@@ -28,7 +28,7 @@ class Order(models.Model):
     summary = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Сумма')
     order_datetime = models.DateTimeField(auto_now=True, verbose_name='Дата и время заказа')
     products = models.ManyToManyField(Product, through="ProductInOrder")
-
+    comment = models.CharField(max_length=255, null=True, blank=True, verbose_name='Комментарий к заказу')
     def __str__(self):
         return f'Заказ № {self.id} (заказчик: {self.client_id})'
 

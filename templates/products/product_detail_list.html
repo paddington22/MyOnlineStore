@@ -2,23 +2,48 @@
 
 {% block content %}
 <h1>{{ product.name }}</h1>
-{% if product.image %}
-    <img src="/{{ product.image }}" alt="{{ product.name }}"
-        width="400"
-        height="400"/>
-{% else %}
-    <img src="/static/placeholder.png" alt="No image"
-        width="400"
-        height="400"/>
+{% if not product_in_basket_id %}
+    {% if product.image %}
+        <img src="/{{ product.image }}" alt="{{ product.name }}"
+            width="400"
+            height="400"/>
+    {% else %}
+        <img src="/static/placeholder.png" alt="No image"
+            width="400"
+            height="400"/>
 {% endif %}
-<p>{{ product.description }}</p>
-<p>Цена: {{ product.unit_price }}</p>
-<form method="post">
-    {% csrf_token %}
+    <p>{{ product.description }}</p>
+    <p>Цена: {{ product.unit_price }}</p>
+    <form method="post">
+        {% csrf_token %}
     <table>
         {{ form.as_table }}
     </table>
     <input value="Добавить в корзину" type="submit"/>
+    <input type="button" value="Отменить" onclick="location.href='{% url "product-list" %}'">
 </form>
+{% else %}
+
+    {% if product.image %}
+    <img src="/{{ product.image }}" alt="{{ product.name }}"
+        width="400"
+        height="400"/>
+    {% else %}
+    <img src="/static/placeholder.png" alt="No image"
+        width="400"
+        height="400"/>
+    {% endif %}
+        <p>{{ product.description }}</p>
+        <p>Цена: {{ product.unit_price }}</p>
+        <form method="post" action="{% url 'basket-update-item' product_in_basket_id %}">
+            {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        <input type="submit" value="Изменить количество">
+        <input type="button" value="Отменить" onclick="location.href='{% url "product-list" %}'">
+</form>
+
+{% endif %}
 
 {% endblock %}

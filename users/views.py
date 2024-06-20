@@ -53,14 +53,13 @@ class NewOrderCreateView(LoginRequiredMixin, FormView):
         summary = 0
         context = super().get_context_data(**kwargs)
         products_in_basket = ProductInBasket.objects.filter(user=self.request.user)
-        products_list = Product.objects.all()
         result = []
-        for product in products_list:
-            for product_in_basket in products_in_basket:
-                if product.id == product_in_basket.product_id:
-                    temp_summary = product.unit_price * product_in_basket.quantity
-                    result.append([product_in_basket, product.unit_price, temp_summary, product.image])
-                    summary += temp_summary
+
+        for product_in_basket in products_in_basket:
+            product = Product.objects.get(pk=product_in_basket.product_id)
+            temp_summary = product.unit_price * product_in_basket.quantity
+            result.append([product_in_basket, product.unit_price, temp_summary, product.image])
+            summary += temp_summary
 
         context['products_in_basket_info'] = result
         context['summary'] = summary

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse
-from django.views.generic import ListView, UpdateView, TemplateView, FormView, CreateView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import ListView, UpdateView, TemplateView, FormView, CreateView, DeleteView
 
 from products.forms import ProductInBasketCreateForm
 from products.models import Product
@@ -67,8 +67,22 @@ class NewOrderCreateView(LoginRequiredMixin, FormView):
         return context
 
 
-class ProductInBasketUpdateView(LoginRequiredMixin, UpdateView):
+class ProductInBasketItemUpdateView(LoginRequiredMixin, UpdateView):
     model = ProductInBasket
     template_name = 'basket_update.html'
     form_class = ProductInBasketCreateForm
-    success_url = '.'
+    success_url = reverse_lazy('basket')
+
+class ProductInBasketItemDeleteView(LoginRequiredMixin, DeleteView):
+    model = ProductInBasket
+    success_url = reverse_lazy('basket')
+    template_name = 'profile/basket_confirm_delete.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product_in_basket = ProductInBasket.objects.get(pk=self.kwargs['pk'])
+        quantity = product_in_basket.quantity
+        product = Product.objects.get(pk=product_in_basket.product_id)
+        context['product'] = product
+        context['quantity'] = quantity
+        return context

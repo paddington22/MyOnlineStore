@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>Вы действительно хотите удалить?</h3>
+<div>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <h4>{{ product }} {{ quantity }} шт. из корзины</h4>
+        <img src="/{{ product.image }}" alt="{{ product.name }}"
+        width="100"
+        height="100"/>
+        <p><div>
+        <input
+                value="Удалить"
+                type="submit"/>
+        <input
+                value="Отменить"
+                type="button"
+                onclick="location.href='{% url "basket" %}'"/>
+            </div></p>
+    </form>
+</div>
+{% endblock %}
+

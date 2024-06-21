@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, UpdateView, CreateView
+from django.views.generic import ListView, UpdateView, CreateView, TemplateView
 from django.urls import reverse_lazy, reverse
 
 from .forms import OrderCreateForm
@@ -64,6 +64,29 @@ class OrderListView(LoginRequiredMixin, ListView):
     model = Order
     def get_queryset(self):
         return Order.objects.filter(user_id=self.request.user.id)
+
+
+class OrderDetailListView(LoginRequiredMixin, ListView):
+    template_name = 'orders/order_detail.html'
+    model = Order
+
+    def get_queryset(self):
+        return ProductInOrder.objects.filter(order_id=self.kwargs['pk'])
+    def get_context_data(self, **kwargs):
+        result = []
+        context = super().get_context_data()
+        products_in_order = self.get_queryset()
+
+        for product_in_order in products_in_order:
+            product = Product.objects.get(pk=product_in_order.product_id)
+            temp_summary = product_in_order.unit_price * product_in_order.quantity
+            result.append([product.name, product_in_order.unit_price, product_in_order.quantity, temp_summary])
+
+        context['products_in_order'] = result
+        context['summary'] = Order.objects.get(id=self.kwargs['pk']).summary
+
+        return context
+
 
 
 

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Детали заказа</h1>
+{% for name,  unit_price, quantity, temp_summary in products_in_order %}
+<b>{{ name }}</b> {{ quantity }} шт. * {{ unit_price }}руб. = {{ temp_summary }}
+
+{% endfor %}
+<p><b>Итого:</b> {{ summary }}</p>
+<input value="К моим заказам" type="button" onclick="location.href='{% url "order-list" %}'"/>
+
+{% endblock %}
+

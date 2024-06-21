@@ -5,7 +5,8 @@
 <h1>Список заказов</h1>
 {% for order in object_list %}
     <div>
-        <a href="#">Заказ №{{order.id}} от {{order.order_datetime}}</a>
+        <a href="{% url 'order-detail' order.id %}">Заказ №{{order.id}} от {{order.order_datetime}}</a>
     </div>
 {% endfor %}
+<p><input value="Личный кабинет" type="button" onclick="location.href='{% url "profile" %}'"/></p>
 {% endblock %}

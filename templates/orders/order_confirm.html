@@ -2,7 +2,6 @@
 
 {% block content %}
 <h3>Подтверждение заказа</h3>
-<form method="post">
 {% for product, unit_price, image in products_in_basket_info %}
     <h4>{{ product }}</h4>
     {% if image %}
@@ -15,14 +14,15 @@
             height="100"/>
     {% endif %}
     <p><b>{{ product.quantity }} шт. {{ unit_price }} руб./шт.</b></p>
-</form>
 {% endfor %}
+<form method="post">
     {% csrf_token %}
         {{ form.as_table }}
     <p><b>Общая сумма: {{ summary }} руб.</b></p>
 <div><input value="Подтвердить заказ"
-       type="button" onclick="location.href='{% url "order-create" %}'"/>
+       type="submit" %}'"/>
 <input value="Отменить"
        class="button"
        onclick="location.href='{% url "basket" %}'"/></div>
+</form>
 {% endblock %}

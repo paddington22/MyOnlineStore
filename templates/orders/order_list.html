@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Список заказов</h1>
+{% for order in object_list %}
+    <div>
+        <a href="#">Заказ №{{order.id}} от {{order.order_datetime}}</a>
+    </div>
+{% endfor %}
+{% endblock %}

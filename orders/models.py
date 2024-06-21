@@ -23,7 +23,7 @@ class OrderStatus(models.Model):
 
 
 class Order(models.Model):
-    client = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Клиент')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Клиент')
     order_status = models.ForeignKey(to='OrderStatus', on_delete=models.PROTECT, default=OrderStatus.get_default_pk, verbose_name='Cтатус заказа')
     summary = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Сумма')
     order_datetime = models.DateTimeField(auto_now=True, verbose_name='Дата и время заказа')

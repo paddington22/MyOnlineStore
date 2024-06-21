@@ -11,7 +11,7 @@
        type="button"
        onclick="location.href='{% url "profile-update" object_list.pk %}'"/>
 <input value="Корзина" type="button" onclick="location.href='{% url "basket" %}'"/>
-<input value="Мои заказы" type="button" onclick="#"/>
+<input value="Мои заказы" type="button" onclick="location.href='{% url "order-list" %}'"/>
 <input value="Выйти" type="button" onclick="location.href='http://127.0.0.1:8000/accounts/logout/'"/>
 
 

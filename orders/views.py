@@ -6,7 +6,7 @@ from django.urls import reverse_lazy, reverse
 from .forms import OrderCreateForm
 from products.models import Product
 from users.models import ProductInBasket
-from .models import ProductInOrder
+from .models import ProductInOrder, Order
 
 
 # Create your views here.
@@ -45,7 +45,7 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.summary = self.get_summary()
-        self.object.client_id = self.request.user.id
+        self.object.user_id = self.request.user.id
         self.object.save()
 
         products_in_basket = self.get_queryset()
@@ -57,6 +57,13 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
             ProductInBasket.objects.filter(id=product_in_basket.id).delete()
 
         return super(OrderCreateView, self).form_valid(form)
+
+
+class OrderListView(LoginRequiredMixin, ListView):
+    template_name = 'order_list.html'
+    model = Order
+    def get_queryset(self):
+        return Order.objects.filter(user_id=self.request.user.id)
 
 
 

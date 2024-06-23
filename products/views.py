@@ -8,7 +8,7 @@ from .forms import ProductInBasketCreateForm
 
 
 # Create your views here.
-class ProductListView(LoginRequiredMixin, ListView):
+class ProductListView(ListView):
     #login_url = reverse_lazy('account_login')
     #template_name = 'orders/product_list.html'
 

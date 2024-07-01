@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from os import environ
 
 from passwords import DATABASE_USERNAME, DATABASE_PASSWORD
 
@@ -22,13 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-7@v-o08q0h-z5shfc83+t5ka=ucf@x2@g%l)na(qv9e2a+2-d3'
+SECRET_KEY = environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = int(environ.get('DEBUG', default=0))
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = environ.get('ALLOWED_HOSTS').split()
 
 # Application definition
 
@@ -85,12 +85,12 @@ WSGI_APPLICATION = 'myOnlineStore.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'myOnlineStore',
-        'USER': DATABASE_USERNAME,
-        'PASSWORD': DATABASE_PASSWORD,
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': environ.get('POSTGRES_ENGINE'),
+        'NAME': environ.get('POSTGRES_DB'),
+        'USER': environ.get('POSTGRES_USER'),
+        'PASSWORD': environ.get('POSTGRES_PASSWORD'),
+        'HOST': environ.get('POSTGRES_HOST'),
+        'PORT': environ.get('POSTGRES_PORT'),
     }
 }
 

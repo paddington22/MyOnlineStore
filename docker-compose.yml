@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:16.3-alpine
+    container_name: postgres_myOnlineStore
+    volumes:
+      - .db-data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=django_user
+      - POSTGRES_PASSWORD=django_password
+      - POSTGRES_DB=django_db
+    ports:
+      - 54320:5432
+  web:
+    build: .
+    container_name: django_myOnlineStore
+    depends_on:
+      - db
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app/
+    ports:
+      - 8000:8000
+    env_file:
+      - ./.env.dev
+
+volumes:
+  postgres_volume:
+
+
+

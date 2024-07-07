@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'orders',
     'products',
+    'rest_framework',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -158,3 +160,9 @@ STORAGES = {
 STATICFILES_DIRS = [
     "static/",
 ]
+
+#Rest Framework Settings
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 3
+}
